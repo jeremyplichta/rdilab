@@ -1,0 +1,21 @@
+source:
+  table: Track
+transform:
+  - uses: add_field
+    with:
+      field: TrackTime
+      expression: CEILING((cast(Milliseconds as float)/(1000*60))*100)/100
+      language: sql
+output:
+  - uses: redis.write
+    with:
+      nest:
+        parent:
+          table: Album
+        nesting_key: TrackId
+        parent_key: AlbumId
+        path: $.Tracks
+        structure: map
+      on_update: merge
+      data_type: json
+      

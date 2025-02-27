@@ -1,0 +1,19 @@
+source:
+  table: Track
+transform:
+  - uses: add_field
+    with:
+      field: TrackTime
+      expression: CEILING((cast(Milliseconds as float)/(1000*60))*100)/100
+      language: sql
+output:
+  - uses: redis.write
+    with:
+      data_type: json
+      key:
+        expression: concat(['Track:', TrackId])
+        language: jmespath
+      connection: target
+      on_update: replace
+
+      

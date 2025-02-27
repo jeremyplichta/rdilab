@@ -1,0 +1,21 @@
+source:
+  table: Track
+transform:
+  - uses: add_field
+    with:
+      field: NameUpper
+      expression: upper("Name")
+      language: sql
+  - uses: filter
+    with:
+      expression: GenreId = 1
+      language: sql
+output:
+  - uses: redis.write
+    with:
+      data_type: hash
+      key:
+        expression: concat(['track:', TrackId])
+        language: jmespath
+      connection: target
+      on_update: replace

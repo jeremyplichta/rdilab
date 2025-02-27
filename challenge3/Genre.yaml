@@ -1,0 +1,13 @@
+source:
+  table: Track
+output:
+  - uses: redis.write
+    with:
+      on_update: merge
+      key:
+        expression: concat(['track_durations'])
+        language: jmespath
+      args:
+        score: Milliseconds
+        member: Name
+      data_type: sorted_set

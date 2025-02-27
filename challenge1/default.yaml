@@ -1,0 +1,12 @@
+source:
+  table: "*"
+  row_format: full
+output:
+  - uses: redis.write
+    with:
+      data_type: json
+      key:
+        expression: concat([table, ':', values(key)[0]])
+        language: jmespath
+      connection: target
+      on_update: replace

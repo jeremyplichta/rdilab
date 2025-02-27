@@ -1,0 +1,9 @@
+source:
+  table: "*"
+  row_format: full
+output:
+  - uses: redis.write
+    with:
+      data_type: json
+      connection: target
+      on_update: merge

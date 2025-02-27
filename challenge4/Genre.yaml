@@ -1,0 +1,12 @@
+source:
+  table: Genre
+output:
+  - uses: redis.write
+    with:
+      on_update: merge
+      key:
+        expression: concat(['Genres'])
+        language: jmespath
+      args:
+        member: Name
+      data_type: set
